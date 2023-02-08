@@ -1,0 +1,82 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct bNode {
+    int data;
+    struct bNode *left;
+    struct bNode *right;
+} 
+bNode;
+
+void insert(bNode **tree, int data)
+{
+    bNode *temp, *previous, *current;
+
+    if (*tree == NULL) 
+    {
+        temp = (bNode *) malloc(sizeof (bNode));
+        temp->data = data;
+        temp->left = temp->right = NULL;
+        *tree = temp;
+        return;
+    }
+
+    if (data < (*tree)->data) 
+       {
+        insert(&(*tree)->left, data);
+       } 
+    else if (data > (*tree)->data) 
+    {
+        insert(&(*tree)->right, data);
+    }
+}
+
+void preorder(bNode *root) {
+    if (root != NULL) {
+        printf("%d\n", root->data);
+        preorder(root->left);
+        preorder(root->right);
+    }
+}
+
+void inorder(bNode *root) {
+    if (root != NULL) {
+        inorder(root->left);
+        printf("%d\n", root->data);
+        inorder(root->right);
+    }
+}
+
+void postorder(bNode *root) {
+    if (root != NULL) {
+        postorder(root->left);
+        postorder(root->right);
+        printf("%d\n", root->data);
+    }
+}
+
+int main() {
+    int choice, value;
+    bNode *root = NULL;
+    printf("\n:: Binary Tree using Linked List ::\n");
+    while (1) {
+        printf("\nChoose from below Menu\n");
+        printf("1. Insert\n2 Display preorder\n3. Display inorder\n4. Display postorder\n5. Exit\n");
+        printf("\nEnter your choice: ");
+        scanf("%d", &choice);
+        switch (choice) {
+            case 1: printf("Enter the value to be inserted: ");
+                scanf("%d", &value);
+                insert(&root, value);
+                break;
+            case 2: preorder(root);
+                break;
+            case 3: inorder(root);
+                break;
+            case 4: postorder(root);
+                break;
+            case 5: exit(0);
+            default: printf("\nWrong selection!!! Please try again!!!\n");
+        }
+    }
+}    
