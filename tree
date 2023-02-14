@@ -1,0 +1,101 @@
+#include<stdio.h>
+#include<conio.h>
+#include<stdlib.h>
+typedef struct node
+{
+int data;
+struct node *lchild,*rchild;
+}node;
+node *getnode()
+{
+node *temp;
+temp=(node *)malloc(sizeof(node));
+temp->lchild=NULL;
+temp->rchild=NULL;
+return temp;
+}
+void insert(node *root,node *newnode)
+{
+if(newnode->data<root->data)
+{
+if(root->lchild== NULL)
+root->lchild=newnode;
+else
+insert(root->lchild,newnode);
+}
+if(newnode->data>root->data)
+{
+if(root->rchild==NULL)
+root->rchild=newnode;
+else
+insert(root->rchild,newnode);
+}
+}
+void preorder(node *temp)
+{
+if(temp==NULL) return;
+printf("%d->",temp->data);
+preorder(temp->lchild);
+preorder(temp->rchild);
+
+}
+void inorder(node *temp)
+{
+if(temp==NULL) return;
+inorder(temp->lchild);
+printf("%d->",temp->data);
+inorder(temp->rchild);
+}
+void postorder(node *temp)
+{
+if(temp==NULL) return;
+postorder(temp->lchild);
+postorder(temp->rchild);
+printf("%d->",temp->data);
+}
+void main()
+{
+int choice;
+char ans='N';
+int key;
+node *newnode,*root,*temp,*parent;
+node *getnode();
+root=NULL;
+printf("\n1.create \t 2.Traversal \t 0.Exit");
+while(1)
+{
+printf("\nEnter your choice:");
+scanf("%d",&choice);
+switch(choice)
+{
+case 1:
+do{
+newnode=getnode();
+printf("\nEnter the Element:");
+scanf("%d",&newnode->data);
+if(root==NULL)
+root=newnode;
+else
+insert(root,newnode);
+printf("\nWant to enter more element?(y/n)");
+ans=getch();
+}while(ans=='y');
+break;
+case 2:
+if(root==NULL)
+{
+printf("Tree is not created");
+}
+else{
+printf("\nThe Inorder display:");
+inorder(root);
+printf("\nThe Preorder display:");
+preorder(root);
+printf("\nThe Postorder display:");
+postorder(root);
+}break;
+case 0:
+exit(0);
+}
+}
+}
