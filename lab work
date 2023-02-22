@@ -1,0 +1,157 @@
+empl 
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+#define MAX_SIZE 10
+
+struct EmployeeSalary {
+    float basicPay;
+    float daPercentage;
+    float hraPercentage;
+    float grossPay;
+};
+
+struct EmployeeSalary stack[MAX_SIZE];
+int top = -1;
+
+void push(struct EmployeeSalary salary) {
+    if (top == MAX_SIZE - 1) {
+        printf("Error: Stack overflow\n");
+        return;
+    }
+    top++;
+    stack[top] = salary;
+}
+
+struct EmployeeSalary pop() {
+    if (top == -1) {
+        printf("Error: Stack underflow\n");
+        struct EmployeeSalary emptySalary = {0, 0, 0, 0};
+        return emptySalary;
+    }
+    struct EmployeeSalary poppedSalary = stack[top];
+    top--;
+    return poppedSalary;
+}
+
+void display() {
+    if (top == -1) {
+        printf("Stack is empty\n");
+        return;
+    }
+    printf("Employee salaries:\n");
+    for (int i = top; i >= 0; i--) {
+        printf("Basic pay: %.2f, DA percentage: %.2f, HRA percentage: %.2f, Gross pay: %.2f\n", stack[i].basicPay, stack[i].daPercentage, stack[i].hraPercentage, stack[i].grossPay);
+    }
+}
+
+float calculateGrossPay(float basicPay, float daPercentage, float hraPercentage) {
+    float daAmount = basicPay * (daPercentage / 100);
+    float hraAmount = basicPay * (hraPercentage / 100);
+    float grossPay = basicPay + daAmount + hraAmount;
+    return grossPay;
+}
+
+int main() {
+    float basicPay1 = 5000;
+    float daPercentage1 = 10;
+    float hraPercentage1 = 15;
+    float grossPay1 = calculateGrossPay(basicPay1, daPercentage1, hraPercentage1);
+    struct EmployeeSalary salary1 = {basicPay1, daPercentage1, hraPercentage1, grossPay1};
+    push(salary1);
+
+    float basicPay2 = 7500;
+    float daPercentage2 = 12;
+    float hraPercentage2 = 18;
+    float grossPay2 = calculateGrossPay(basicPay2, daPercentage2, hraPercentage2);
+    struct EmployeeSalary salary2 = {basicPay2, daPercentage2, hraPercentage2, grossPay2};
+    push(salary2);
+
+    float basicPay3 = 10000;
+    float daPercentage3 = 15;
+    float hraPercentage3 = 20;
+    float grossPay3 = calculateGrossPay(basicPay3, daPercentage3, hraPercentage3);
+    struct EmployeeSalary salary3 = {basicPay3, daPercentage3, hraPercentage3, grossPay3};
+    push(salary3);
+
+    display();
+    return 0;
+}
+loan and stuffs
+loan and stuffs
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+#define MAX_SIZE 10
+
+struct LoanPayment {
+    float amount;
+    float interestRate;
+    int periodsRemaining;
+};
+
+struct LoanPayment stack[MAX_SIZE];
+int top = -1;
+
+void push(struct LoanPayment payment) {
+    if (top == MAX_SIZE - 1) {
+        printf("Error: Stack overflow\n");
+        return;
+    }
+    top++;
+    stack[top] = payment;
+}
+
+struct LoanPayment pop() {
+    if (top == -1) {
+        printf("Error: Stack underflow\n");
+        struct LoanPayment emptyPayment = {0, 0, 0};
+        return emptyPayment;
+    }
+    struct LoanPayment poppedPayment = stack[top];
+    top--;
+    return poppedPayment;
+}
+
+void display() {
+    if (top == -1) {
+        printf("Stack is empty\n");
+        return;
+    }
+    printf("Loan payments:\n");
+    for (int i = top; i >= 0; i--) {
+        printf("Payment amount: %.2f, Interest rate: %.2f, Periods remaining: %d\n", stack[i].amount, stack[i].interestRate, stack[i].periodsRemaining);
+    }
+}
+
+float calculateBalance() {
+    float balance = 0;
+    for (int i = top; i >= 0; i--) {
+        struct LoanPayment payment = stack[i];
+        float monthlyInterestRate = payment.interestRate / 12;
+        float paymentAmount = payment.amount;
+        int periodsRemaining = payment.periodsRemaining;
+        float interest = balance * monthlyInterestRate;
+        balance += interest;
+        balance -= paymentAmount;
+        periodsRemaining--;
+        if (periodsRemaining > 0) {
+            struct LoanPayment newPayment = {paymentAmount, payment.interestRate, periodsRemaining};
+            push(newPayment);
+        }
+    }
+    return balance;
+}
+
+int main() {
+    struct LoanPayment payment1 = {500, 0.05, 12};
+    struct LoanPayment payment2 = {750, 0.06, 24};
+    struct LoanPayment payment3 = {1000, 0.07, 36};
+    push(payment1);
+    push(payment2);
+    push(payment3);
+    display();
+    float balance = calculateBalance();
+    printf("Final balance: %.2f\n", balance);
+    return 0;
+}
