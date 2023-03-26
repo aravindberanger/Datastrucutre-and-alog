@@ -1,0 +1,119 @@
+#include<stdio.h>
+#include<conio.h>
+#include<stdlib.h>
+#include<string.h>
+struct node
+{
+char itemname[30];
+int icode,price,qnty;
+int amount;
+struct node*next;
+};
+struct node*front;
+struct node*rear;
+void insert();
+void delete();
+void display();
+void main()
+{
+int choice;
+clrscr();
+while(choice!=4)
+{
+printf("\n Implentation of Linked QUEUE \n");
+printf("\n1.Insert \n2.Delete \n3.Display \n4.Exit");
+printf("\n Enter your choice:");
+scanf("%d",&choice);
+switch(choice)
+{
+case 1:insert();break;
+case 2:delete();break;
+case 3:display(); break;
+case 4:exit(0);break;
+default: printf("\n Please enter a valid choice:");
+}
+}
+getch();
+}
+void insert()
+{
+struct node*ptr;
+char s[20];
+int s1,s2,s3;
+int s4;
+ptr=(struct node*)malloc(sizeof(struct node));
+if(ptr==NULL)
+{
+printf("Queue is Full");
+return;
+}
+else
+{
+printf("Enter the item name:");
+scanf("%s",&s);
+printf("Enter the itemcode:");
+scanf("%d",&s1);
+printf("Enter the price:");
+scanf("%d",&s2);
+printf("Enter the quantity:");
+scanf("%d",&s3);
+s4=s2*s3;
+printf("\nTotal price: %d",s4);
+strcpy(ptr->itemname,s);
+ptr->icode=s1;
+ptr->price=s2;
+ptr->qnty=s3;
+ptr->amount=s4;
+if(front==NULL)
+{
+front=ptr;
+rear=ptr;
+front->next=NULL;
+rear->next=NULL;
+}
+else
+{
+rear->next=ptr;
+rear=ptr;
+rear->next=NULL;
+}
+}
+}
+void delete()
+{
+struct node*ptr;
+if(front==NULL)
+{
+printf("\n Underflow");
+return;
+}
+else
+{
+ptr=front;
+front=front->next;
+free(ptr);
+printf("Item is deleted ");
+}
+}
+void display()
+{
+struct node*ptr;
+ptr=front;
+if(front==NULL)
+{
+printf("Queue empty");
+}
+else
+{
+printf("\n Product details");
+while(ptr!=NULL)
+{
+printf("\n The Item Name is:%s",ptr->itemname);
+printf("\n The Item Code is:%d",ptr->icode);
+printf("\n The Item Price is:%d",ptr->price);
+printf("\n The Item Qusntity is:%d",ptr->qnty);
+printf("\n The Item Amount is:%d",ptr->amount);
+ptr=ptr->next;
+}
+}
+}
